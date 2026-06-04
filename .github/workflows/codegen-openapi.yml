@@ -1,0 +1,38 @@
+name: codegen-openapi
+
+on:
+    workflow_dispatch:
+permissions:
+    contents: write
+
+jobs:
+    codegen:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+              with:
+                  token: ${{ secrets.GITHUB_TOKEN }}
+
+            - uses: actions/setup-node@v4
+              with:
+                  node-version: latest
+
+            - uses: pnpm/action-setup@v4
+              with:
+                  run_install: false
+
+            - name: install
+              run: pnpm install
+
+            - name: generate types
+              run: pnpm --filter @repo/client generate
+
+            - name: commit types
+              run: |
+                  git config user.name "github-actions[bot]"
+                  git config user.email "github-actions[bot]@users.noreply.github.com"
+                  git diff --quiet packages/client/src/generated || (
+                    git add packages/client/src/generated &&
+                    git commit -m "chore: regenerate types [skip ci]" &&
+                    git push
+                  )
