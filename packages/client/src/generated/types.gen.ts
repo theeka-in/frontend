@@ -177,6 +177,39 @@ export type ErrorDto = {
 };
 
 /**
+ * ExploreListingDto
+ */
+export type ExploreListingDto = {
+    id: string;
+    title: string;
+    description?: string;
+    logo?: string;
+    is_active: boolean;
+    created_at: string;
+    updated_at: string;
+    media: Array<ListingMediaDto>;
+    business: BusinessDto;
+};
+
+/**
+ * ExploreProductListingDto
+ */
+export type ExploreProductListingDto = {
+    price: number;
+    stock: number;
+    listing: ExploreListingDto;
+};
+
+/**
+ * ExploreServiceListingDto
+ */
+export type ExploreServiceListingDto = {
+    price: string;
+    available: boolean;
+    listing: ExploreListingDto;
+};
+
+/**
  * HealthCheckResponse
  */
 export type HealthCheckResponse = {
@@ -191,6 +224,19 @@ export type ListingAnalyticsDto = {
     unique_viewers: number;
     listing_id: string;
     business_id: string;
+};
+
+/**
+ * ListingDto
+ */
+export type ListingDto = {
+    id: string;
+    title: string;
+    description?: string;
+    logo?: string;
+    is_active: boolean;
+    created_at: string;
+    updated_at: string;
 };
 
 /**
@@ -215,17 +261,9 @@ export type LoginDto = {
  * ProductListingDto
  */
 export type ProductListingDto = {
-    id: string;
-    title: string;
-    description?: string;
-    logo?: string;
-    is_active: boolean;
-    created_at: string;
-    updated_at: string;
-    business_id: string;
-    product_listing_id: string;
     price: number;
     stock: number;
+    listing: ListingDto;
 };
 
 /**
@@ -263,17 +301,9 @@ export type ReviewDto = {
  * ServiceListingDto
  */
 export type ServiceListingDto = {
-    id: string;
-    title: string;
-    description?: string;
-    logo?: string;
-    is_active: boolean;
-    created_at: string;
-    updated_at: string;
-    business_id: string;
-    service_listing_id: string;
     price: string;
     available: boolean;
+    listing: ListingDto;
 };
 
 /**
@@ -1032,7 +1062,7 @@ export type ExploreProductListingsNearbyErrors = {
 export type ExploreProductListingsNearbyError = ExploreProductListingsNearbyErrors[keyof ExploreProductListingsNearbyErrors];
 
 export type ExploreProductListingsNearbyResponses = {
-    200: Array<ProductListingDto>;
+    200: Array<ExploreProductListingDto>;
 };
 
 export type ExploreProductListingsNearbyResponse = ExploreProductListingsNearbyResponses[keyof ExploreProductListingsNearbyResponses];
@@ -1055,7 +1085,7 @@ export type ExploreServiceListingsNearbyErrors = {
 export type ExploreServiceListingsNearbyError = ExploreServiceListingsNearbyErrors[keyof ExploreServiceListingsNearbyErrors];
 
 export type ExploreServiceListingsNearbyResponses = {
-    200: Array<ServiceListingDto>;
+    200: Array<ExploreServiceListingDto>;
 };
 
 export type ExploreServiceListingsNearbyResponse = ExploreServiceListingsNearbyResponses[keyof ExploreServiceListingsNearbyResponses];
