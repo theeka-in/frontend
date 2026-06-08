@@ -41,7 +41,6 @@ export type BusinessDto = {
     description?: string;
     created_at: string;
     owner_id: string;
-    address?: BusinessAddressDto;
 };
 
 /**
@@ -66,6 +65,22 @@ export type BusinessMediaDto = {
     media_type: string;
     url: string;
     business_id: string;
+};
+
+/**
+ * BusinessWithOwnerAndAddressDto
+ */
+export type BusinessWithOwnerAndAddressDto = {
+    id: string;
+    phone_number: number;
+    is_closed: boolean;
+    title: string;
+    logo?: string;
+    description?: string;
+    created_at: string;
+    owner_id: string;
+    owner: UserDto;
+    address: BusinessAddressDto;
 };
 
 /**
@@ -177,9 +192,10 @@ export type ErrorDto = {
 };
 
 /**
- * ExploreListingDto
+ * ExploreProductListingDto
  */
-export type ExploreListingDto = {
+export type ExploreProductListingDto = {
+    product: ProductDto;
     id: string;
     title: string;
     description?: string;
@@ -188,25 +204,23 @@ export type ExploreListingDto = {
     created_at: string;
     updated_at: string;
     media: Array<ListingMediaDto>;
-    business: BusinessDto;
-};
-
-/**
- * ExploreProductListingDto
- */
-export type ExploreProductListingDto = {
-    price: number;
-    stock: number;
-    listing: ExploreListingDto;
+    business: BusinessWithOwnerAndAddressDto;
 };
 
 /**
  * ExploreServiceListingDto
  */
 export type ExploreServiceListingDto = {
-    price: string;
-    available: boolean;
-    listing: ExploreListingDto;
+    service: ServiceDto;
+    id: string;
+    title: string;
+    description?: string;
+    logo?: string;
+    is_active: boolean;
+    created_at: string;
+    updated_at: string;
+    media: Array<ListingMediaDto>;
+    business: BusinessWithOwnerAndAddressDto;
 };
 
 /**
@@ -227,19 +241,6 @@ export type ListingAnalyticsDto = {
 };
 
 /**
- * ListingDto
- */
-export type ListingDto = {
-    id: string;
-    title: string;
-    description?: string;
-    logo?: string;
-    is_active: boolean;
-    created_at: string;
-    updated_at: string;
-};
-
-/**
  * ListingMediaDto
  */
 export type ListingMediaDto = {
@@ -250,6 +251,28 @@ export type ListingMediaDto = {
 };
 
 /**
+ * LocationDto
+ */
+export type LocationDto = {
+    id: number;
+    osm_key: string;
+    osm_type: OsmType;
+    osm_value: string;
+    name?: string;
+    city?: string;
+    district?: string;
+    state?: string;
+    county?: string;
+    country?: string;
+    country_iso_code?: string;
+    postcode?: string;
+    street?: string;
+    house_number?: string;
+    lat: number;
+    lon: number;
+};
+
+/**
  * LoginDto
  */
 export type LoginDto = {
@@ -257,13 +280,29 @@ export type LoginDto = {
     password: string;
 };
 
+export type OsmType = 'Node' | 'Way' | 'Relation';
+
+/**
+ * ProductDto
+ */
+export type ProductDto = {
+    id: string;
+    price: number;
+    stock: number;
+};
+
 /**
  * ProductListingDto
  */
 export type ProductListingDto = {
-    price: number;
-    stock: number;
-    listing: ListingDto;
+    id: string;
+    title: string;
+    description?: string;
+    logo?: string;
+    is_active: boolean;
+    created_at: string;
+    updated_at: string;
+    product: ProductDto;
 };
 
 /**
@@ -298,12 +337,26 @@ export type ReviewDto = {
 };
 
 /**
+ * ServiceDto
+ */
+export type ServiceDto = {
+    id: string;
+    price: string;
+    available: boolean;
+};
+
+/**
  * ServiceListingDto
  */
 export type ServiceListingDto = {
-    price: string;
-    available: boolean;
-    listing: ListingDto;
+    id: string;
+    title: string;
+    description?: string;
+    logo?: string;
+    is_active: boolean;
+    created_at: string;
+    updated_at: string;
+    service: ServiceDto;
 };
 
 /**
@@ -771,7 +824,7 @@ export type GetBusinessByIdErrors = {
 export type GetBusinessByIdError = GetBusinessByIdErrors[keyof GetBusinessByIdErrors];
 
 export type GetBusinessByIdResponses = {
-    200: BusinessDto;
+    200: BusinessWithOwnerAndAddressDto;
 };
 
 export type GetBusinessByIdResponse = GetBusinessByIdResponses[keyof GetBusinessByIdResponses];
@@ -1658,3 +1711,46 @@ export type CheckResponses = {
 };
 
 export type CheckResponse = CheckResponses[keyof CheckResponses];
+
+export type LocationSearchData = {
+    body?: never;
+    path?: never;
+    query: {
+        query: string;
+    };
+    url: '/location/search';
+};
+
+export type LocationSearchErrors = {
+    500: ErrorDto;
+};
+
+export type LocationSearchError = LocationSearchErrors[keyof LocationSearchErrors];
+
+export type LocationSearchResponses = {
+    200: Array<LocationDto>;
+};
+
+export type LocationSearchResponse = LocationSearchResponses[keyof LocationSearchResponses];
+
+export type LocationReverseData = {
+    body?: never;
+    path?: never;
+    query: {
+        lat: number;
+        lon: number;
+    };
+    url: '/location/reverse';
+};
+
+export type LocationReverseErrors = {
+    500: ErrorDto;
+};
+
+export type LocationReverseError = LocationReverseErrors[keyof LocationReverseErrors];
+
+export type LocationReverseResponses = {
+    200: LocationDto;
+};
+
+export type LocationReverseResponse = LocationReverseResponses[keyof LocationReverseResponses];
