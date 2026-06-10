@@ -143,8 +143,6 @@ export type CreateProductListingDto = {
     logo?: string;
     price: number;
     stock: number;
-    categories?: Array<string>;
-    tags?: Array<string>;
 };
 
 /**
@@ -165,8 +163,6 @@ export type CreateServiceListingDto = {
     logo?: string;
     price: string;
     available: boolean;
-    categories?: Array<string>;
-    tags?: Array<string>;
 };
 
 /**
@@ -604,25 +600,6 @@ export type DeleteSessionResponses = {
 };
 
 export type DeleteSessionResponse = DeleteSessionResponses[keyof DeleteSessionResponses];
-
-export type DeleteMyselfData = {
-    body?: never;
-    path?: never;
-    query?: never;
-    url: '/users/me';
-};
-
-export type DeleteMyselfErrors = {
-    500: ErrorDto;
-};
-
-export type DeleteMyselfError = DeleteMyselfErrors[keyof DeleteMyselfErrors];
-
-export type DeleteMyselfResponses = {
-    204: void;
-};
-
-export type DeleteMyselfResponse = DeleteMyselfResponses[keyof DeleteMyselfResponses];
 
 export type GetMyselfData = {
     body?: never;
