@@ -25,7 +25,7 @@ jobs:
               run: pnpm install
 
             - name: generate types
-              run: pnpm --filter @repo/client generate
+              run: pnpm run generate:openapi
 
             - name: commit types
               run: |
